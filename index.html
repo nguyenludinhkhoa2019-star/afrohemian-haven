@@ -1,0 +1,1731 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Afrohemian Haven — Quản lý Pinterest Affiliate</title>
+  <style>
+    :root {
+      --bg: #faf4ec;
+      --surface: #ffffff;
+      --surface-warm: #f3e9dc;
+      --border: #e2d3bf;
+      --text: #2f241d;
+      --text-muted: #6e5a4f;
+      --terracotta: #c65d3b;
+      --terracotta-dark: #a6492b;
+      --terracotta-soft: #fae8e0;
+      --mustard: #d99b26;
+      --mustard-dark: #b87f17;
+      --mustard-soft: #fdf3dc;
+      --green: #237a4b;
+      --green-soft: #e6f5ec;
+      --orange: #d97706;
+      --orange-soft: #fef3c7;
+      --red: #b91c1c;
+      --red-soft: #fee2e2;
+      --shadow: 0 4px 14px rgba(47, 36, 29, 0.07);
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      font-size: 16px;
+    }
+
+    /* Header */
+    .app-header {
+      background: linear-gradient(135deg, #3d2b22 0%, #5b3b2c 100%);
+      color: #fffaf3;
+      padding: 20px 24px;
+      border-bottom: 4px solid var(--mustard);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.65rem;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      font-size: 0.95rem;
+      color: #ebd9c5;
+    }
+
+    .backup-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    /* Stats strip */
+    .stats-strip {
+      max-width: 1200px;
+      margin: 18px auto 0;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .stat-value {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--terracotta);
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs {
+      max-width: 1200px;
+      margin: 18px auto 0;
+      padding: 0 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tab-btn {
+      background: var(--surface-warm);
+      color: var(--text);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 13px 20px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab-btn:hover {
+      border-color: var(--terracotta);
+      background: #efe1cf;
+    }
+
+    .tab-btn.active {
+      background: var(--terracotta);
+      color: #ffffff;
+      border-color: var(--terracotta);
+      box-shadow: 0 4px 12px rgba(198, 93, 59, 0.28);
+    }
+
+    /* Main Container */
+    .main-container {
+      max-width: 1200px;
+      margin: 20px auto 60px;
+      padding: 0 20px;
+    }
+
+    .section-panel {
+      display: none;
+    }
+
+    .section-panel.active {
+      display: block;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      margin: 0 0 16px;
+      font-size: 1.35rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-bottom: 2px solid var(--surface-warm);
+      padding-bottom: 10px;
+    }
+
+    /* Buttons */
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s ease, transform 0.08s ease;
+      text-decoration: none;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--terracotta);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: var(--terracotta-dark);
+    }
+
+    .btn-mustard {
+      background: var(--mustard);
+      color: #2f241d;
+    }
+
+    .btn-mustard:hover {
+      background: var(--mustard-dark);
+      color: #ffffff;
+    }
+
+    .btn-secondary {
+      background: var(--surface-warm);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: #e8dac6;
+    }
+
+    .btn-success {
+      background: var(--green);
+      color: #ffffff;
+    }
+
+    .btn-success:hover {
+      background: #1b603b;
+    }
+
+    .btn-danger {
+      background: var(--red-soft);
+      color: var(--red);
+      border: 1px solid #fecaca;
+    }
+
+    .btn-danger:hover {
+      background: var(--red);
+      color: #ffffff;
+    }
+
+    .btn-sm {
+      padding: 9px 14px;
+      font-size: 0.9rem;
+    }
+
+    /* Forms */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    input[type="text"],
+    input[type="url"],
+    input[type="date"],
+    input[type="time"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      color: var(--text);
+      background: #fffdf9;
+      transition: border-color 0.15s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--terracotta);
+      background: #ffffff;
+    }
+
+    textarea {
+      min-height: 105px;
+      resize: vertical;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: var(--surface-warm);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--terracotta);
+      cursor: pointer;
+    }
+
+    /* Badges & Counters */
+    .counter-pill {
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--surface-warm);
+      color: var(--text-muted);
+    }
+
+    .counter-pill.green {
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    .counter-pill.orange {
+      background: var(--orange-soft);
+      color: var(--orange);
+    }
+
+    .counter-pill.red {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .alert-box {
+      padding: 12px 15px;
+      border-radius: 10px;
+      font-size: 0.94rem;
+      font-weight: 600;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .alert-warning {
+      background: var(--orange-soft);
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    .alert-danger {
+      background: var(--red-soft);
+      color: var(--red);
+      border: 1px solid #fecaca;
+    }
+
+    .alert-info {
+      background: var(--mustard-soft);
+      color: #784f08;
+      border: 1px solid #f6d78d;
+    }
+
+    .alert-success {
+      background: var(--green-soft);
+      color: var(--green);
+      border: 1px solid #bbf7d0;
+    }
+
+    .preview-box {
+      background: #fdf9f3;
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+      color: var(--text);
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+      background: var(--surface-warm);
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    /* Pin Cards */
+    .pin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 18px;
+    }
+
+    .pin-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      border-top: 5px solid var(--terracotta);
+    }
+
+    .pin-card.type-shop {
+      border-top-color: var(--mustard);
+    }
+
+    .pin-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .badge {
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--surface-warm);
+      color: var(--text);
+    }
+
+    .badge-value {
+      background: #e6f0ec;
+      color: #1f5c43;
+    }
+
+    .badge-shop {
+      background: var(--mustard-soft);
+      color: #8a5b07;
+    }
+
+    .badge-status-nhap {
+      background: #ece7e1;
+      color: #5b4d44;
+    }
+
+    .badge-status-sansang {
+      background: var(--orange-soft);
+      color: #9a5204;
+    }
+
+    .badge-status-dadang {
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    .badge-ai {
+      background: #ede9fe;
+      color: #5b21b6;
+    }
+
+    .pin-title {
+      margin: 0;
+      font-size: 1.12rem;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .pin-desc {
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .pin-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: #faf6f0;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #ede2d3;
+    }
+
+    .pin-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 6px;
+      border-top: 1px solid var(--surface-warm);
+    }
+
+    /* Product List */
+    .product-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .product-item {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: #fffdf9;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .product-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 240px;
+      flex: 1;
+    }
+
+    .product-name {
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+
+    .product-link {
+      color: var(--terracotta);
+      font-size: 0.88rem;
+      word-break: break-all;
+    }
+
+    /* Schedule List */
+    .schedule-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .schedule-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 6px solid var(--terracotta);
+      border-radius: 12px;
+    }
+
+    .schedule-row.conflict {
+      border-left-color: var(--red);
+      background: #fff5f5;
+      border-color: #fecaca;
+    }
+
+    .schedule-date-box {
+      min-width: 155px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #2f241d;
+      color: #fffaf3;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+      border-left: 5px solid var(--mustard);
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(14px);
+      pointer-events: none;
+      transition: all 0.22s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 36px 20px;
+      color: var(--text-muted);
+      background: #fdf9f3;
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .pin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <h1>🏺 Afrohemian Haven</h1>
+        <p>Quản lý kênh Pinterest Affiliate — Lưu tự động trên trình duyệt (localStorage)</p>
+      </div>
+      <div class="backup-bar">
+        <button type="button" class="btn btn-mustard" id="btnExportJson">⬇️ Xuất JSON (Sao lưu)</button>
+        <button type="button" class="btn btn-secondary" id="btnImportTrigger">⬆️ Nhập JSON</button>
+        <input type="file" id="importFileInput" accept=".json,application/json" style="display:none" />
+      </div>
+    </div>
+  </header>
+
+  <section class="stats-strip" id="statsStrip">
+    <div class="stat-card">
+      <span class="stat-label">Tổng số Pin</span>
+      <span class="stat-value" id="statTotalPins">0</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Sẵn sàng đăng</span>
+      <span class="stat-value" id="statReadyPins">0</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Đã đăng</span>
+      <span class="stat-value" id="statPostedPins">0</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Sản phẩm Amazon</span>
+      <span class="stat-value" id="statProducts">0</span>
+    </div>
+  </section>
+
+  <nav class="nav-tabs" aria-label="Điều hướng chính">
+    <button type="button" class="tab-btn active" data-tab="tab-pins">📌 Danh sách Pin</button>
+    <button type="button" class="tab-btn" data-tab="tab-editor">✏️ Tạo / Sửa Pin</button>
+    <button type="button" class="tab-btn" data-tab="tab-products">🛍️ Sản phẩm Amazon</button>
+    <button type="button" class="tab-btn" data-tab="tab-schedule">📅 Lịch đăng bài</button>
+  </nav>
+
+  <main class="main-container">
+    <!-- TAB 1: PIN LIST -->
+    <section id="tab-pins" class="section-panel active">
+      <div class="card">
+        <div class="section-title">
+          <span>📌 Danh sách Pin</span>
+          <button type="button" class="btn btn-primary" id="btnNewPinShortcut">+ Tạo Pin mới</button>
+        </div>
+
+        <div class="filter-bar">
+          <div class="form-group">
+            <label for="filterBoard">Lọc theo Bảng (Board)</label>
+            <select id="filterBoard">
+              <option value="ALL">Tất cả bảng (8)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="filterStatus">Lọc theo Trạng thái</label>
+            <select id="filterStatus">
+              <option value="ALL">Tất cả trạng thái</option>
+              <option value="Nháp">Nháp</option>
+              <option value="Sẵn sàng">Sẵn sàng</option>
+              <option value="Đã đăng">Đã đăng</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="filterType">Lọc theo Loại Pin</label>
+            <select id="filterType">
+              <option value="ALL">Tất cả loại</option>
+              <option value="Value">Value</option>
+              <option value="Shop">Shop</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="pinListContainer" class="pin-grid"></div>
+      </div>
+    </section>
+
+    <!-- TAB 2: CREATE / EDIT PIN -->
+    <section id="tab-editor" class="section-panel">
+      <div class="card">
+        <div class="section-title">
+          <span id="editorHeading">✏️ Tạo Pin mới</span>
+          <button type="button" class="btn btn-secondary btn-sm" id="btnResetPinForm">Làm mới biểu mẫu</button>
+        </div>
+
+        <form id="pinForm">
+          <input type="hidden" id="pinId" />
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="pinKeyword">Từ khóa chính (Main Keyword)</label>
+              <input type="text" id="pinKeyword" placeholder="vd: afrohemian living room ideas" />
+            </div>
+
+            <div class="form-group">
+              <label for="pinBoard">Bảng (Board)</label>
+              <select id="pinBoard" required></select>
+            </div>
+
+            <div class="form-group full">
+              <label for="pinTitle">
+                <span>Tiêu đề Pin (Pin Title — tiếng Anh)</span>
+                <span class="counter-pill" id="titleCounter">0 / 100 ký tự</span>
+              </label>
+              <input type="text" id="pinTitle" required placeholder="Nhập tiêu đề tiếng Anh (nên đặt từ khóa ở đầu)..." />
+              <div id="titleWarning"></div>
+            </div>
+
+            <div class="form-group full">
+              <label for="pinDescription">
+                <span>Mô tả Pin (Description — mục tiêu 220–232 ký tự)</span>
+                <span class="counter-pill" id="descCounter">0 ký tự (mục tiêu 220–232)</span>
+              </label>
+              <textarea id="pinDescription" required placeholder="Nhập mô tả tiếng Anh chuẩn SEO 220-232 ký tự..."></textarea>
+              <div id="descFeedback"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="pinType">Loại Pin (Pin Type)</label>
+              <select id="pinType">
+                <option value="Value">Value (Chia sẻ giá trị / Ý tưởng)</option>
+                <option value="Shop">Shop (Affiliate / Mua sắm)</option>
+              </select>
+              <div id="shopAffiliateReminder" style="display:none;"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="pinStatus">Trạng thái</label>
+              <select id="pinStatus">
+                <option value="Nháp">Nháp</option>
+                <option value="Sẵn sàng">Sẵn sàng</option>
+                <option value="Đã đăng">Đã đăng</option>
+              </select>
+            </div>
+
+            <div class="form-group full" id="descPreviewWrapper">
+              <label>Xem trước Mô tả khi đăng (tự động thêm #affiliate nếu là Pin Shop)</label>
+              <div class="preview-box" id="descPreviewBox"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="pinOverlay">
+                <span>Chữ trên ảnh (Overlay Text)</span>
+                <span class="counter-pill" id="overlayCounter">0 / 8 từ</span>
+              </label>
+              <input type="text" id="pinOverlay" placeholder="Tối đa 8 từ tiếng Anh" />
+              <div id="overlayWarning"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="pinPillar">Trụ cột nội dung (Pillar)</label>
+              <input type="text" id="pinPillar" placeholder="vd: Living Spaces, Textiles, Budget Decor..." />
+            </div>
+
+            <div class="form-group">
+              <label for="pinAltText">Văn bản thay thế (Alt Text)</label>
+              <input type="text" id="pinAltText" placeholder="Mô tả hình ảnh bằng tiếng Anh..." />
+            </div>
+
+            <div class="form-group">
+              <label for="pinCta">Kêu gọi hành động (CTA)</label>
+              <input type="text" id="pinCta" placeholder="vd: Save this look for later!" />
+            </div>
+
+            <div class="form-group">
+              <label for="pinImageFile">Tên file ảnh (Image Filename)</label>
+              <input type="text" id="pinImageFile" placeholder="vd: afrohemian-living-room.jpg" />
+            </div>
+
+            <div class="form-group">
+              <label for="pinProductSelect">Chọn nhanh 1 Sản phẩm Amazon (tuỳ chọn)</label>
+              <select id="pinProductSelect">
+                <option value="">-- Chọn từ danh sách sản phẩm đã lưu --</option>
+              </select>
+            </div>
+
+            <div class="form-group full">
+              <label for="pinDestLink">Link đích (Destination Link — Quy tắc: mỗi Pin chỉ dùng đúng 1 link sản phẩm với tracking ID riêng)</label>
+              <input type="url" id="pinDestLink" placeholder="https://www.amazon.com/dp/...?tag=yourtag-20" />
+              <div id="destLinkInfo"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="pinDate">Ngày lên lịch đăng</label>
+              <input type="date" id="pinDate" />
+              <div id="dateConflictWarning"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="pinTime">Giờ lên lịch (mặc định 09:00)</label>
+              <input type="time" id="pinTime" value="09:00" />
+            </div>
+
+            <div class="form-group full">
+              <label class="checkbox-row">
+                <input type="checkbox" id="pinAiModified" />
+                <span>Ảnh AI - bật nhãn AI-Modified khi đăng</span>
+              </label>
+            </div>
+
+            <div class="form-group full" style="flex-direction: row; gap: 12px; flex-wrap: wrap;">
+              <button type="submit" class="btn btn-primary" id="btnSavePin">💾 Lưu Pin</button>
+              <button type="button" class="btn btn-secondary" id="btnCancelEdit" style="display:none;">Hủy chỉnh sửa</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- TAB 3: AMAZON PRODUCTS -->
+    <section id="tab-products" class="section-panel">
+      <div class="card">
+        <div class="section-title">
+          <span>🛍️ Thêm Sản phẩm Amazon</span>
+          <span class="badge badge-shop">Quy tắc: Mỗi Pin chỉ dùng đúng 1 link sản phẩm với tracking ID riêng</span>
+        </div>
+
+        <form id="productForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="prodName">Tên sản phẩm</label>
+              <input type="text" id="prodName" required placeholder="vd: Malian Mudcloth Pillow Cover 18x18" />
+            </div>
+
+            <div class="form-group">
+              <label for="prodNote">Ghi chú</label>
+              <input type="text" id="prodNote" placeholder="vd: Màu đất nung, giá $24, phù hợp phòng khách" />
+            </div>
+
+            <div class="form-group full">
+              <label for="prodLink">
+                <span>Link Amazon (tự động tách tham số <code>tag=</code>)</span>
+                <span class="counter-pill" id="prodTagBadge">Chưa có link</span>
+              </label>
+              <input type="url" id="prodLink" required placeholder="Dán link Amazon có ?tag=... vào đây" />
+              <div id="prodTagWarning"></div>
+            </div>
+
+            <div class="form-group full">
+              <button type="submit" class="btn btn-primary">➕ Thêm sản phẩm</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <span>📦 Danh sách sản phẩm đã lưu</span>
+        </div>
+        <div id="productListContainer" class="product-list"></div>
+      </div>
+    </section>
+
+    <!-- TAB 4: SCHEDULE -->
+    <section id="tab-schedule" class="section-panel">
+      <div class="card">
+        <div class="section-title">
+          <span>📅 Lịch đăng bài (1 Pin / ngày)</span>
+        </div>
+        <div id="scheduleSummaryAlert"></div>
+        <div id="scheduleListContainer" class="schedule-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = "afrohemian_haven_data_v1";
+
+      const BOARDS = [
+        "Afrohemian Living Room Ideas",
+        "Afrohemian Bedroom Ideas",
+        "African Boho Textiles Ideas",
+        "Handwoven Baskets Ideas",
+        "Afrohemian Wall Art Ideas",
+        "Small Apartment Afrohemian Ideas",
+        "Afrohemian Fall Decor Ideas",
+        "Afrohemian Under $100 Ideas"
+      ];
+
+      function formatDateOffset(daysFromToday) {
+        const d = new Date();
+        d.setDate(d.getDate() + daysFromToday);
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${y}-${m}-${day}`;
+      }
+
+      function getStarterData() {
+        return {
+          products: [],
+          pins: [
+            {
+              id: "starter-pin-1",
+              type: "Value",
+              board: "Afrohemian Living Room Ideas",
+              keyword: "afrohemian living room ideas",
+              title: "Afrohemian Living Room Ideas: Mudcloth Pillows & Warm Earth Tones",
+              description: "Bring warmth home with Afrohemian living room ideas: Malian mudcloth pillows, handwoven baskets and terracotta tones layered on a natural jute rug, plus plants in woven planters. Save this cozy look for your next refresh.",
+              overlay: "Warm Afrohemian Living Room",
+              imageFile: "afrohemian-living-room-mudcloth-pillows.jpg",
+              pillar: "Living Spaces",
+              altText: "Warm Afrohemian living room with Malian mudcloth pillows, terracotta tones, jute rug, and woven basket planters",
+              cta: "Save this cozy look for your next refresh!",
+              destLink: "",
+              date: formatDateOffset(0),
+              time: "09:00",
+              status: "Sẵn sàng",
+              aiModified: false
+            },
+            {
+              id: "starter-pin-2",
+              type: "Value",
+              board: "Handwoven Baskets Ideas",
+              keyword: "woven basket wall decor",
+              title: "Woven Basket Wall Decor: How to Hang 5, 7 or 9 Baskets",
+              description: "Learn how to style a woven basket wall: pick an odd number of sweetgrass baskets in mixed sizes, lay them on the rug first to test the balance, then hang for a collected, organic feel. Save this easy guide for your blank wall.",
+              overlay: "How to Hang a Basket Wall",
+              imageFile: "woven-basket-wall-decor-guide.jpg",
+              pillar: "Wall Decor",
+              altText: "Gallery wall of odd-numbered handwoven sweetgrass baskets in mixed sizes above a warm neutral sofa",
+              cta: "Save this easy guide for your blank wall!",
+              destLink: "",
+              date: formatDateOffset(1),
+              time: "09:00",
+              status: "Sẵn sàng",
+              aiModified: false
+            },
+            {
+              id: "starter-pin-3",
+              type: "Value",
+              board: "Afrohemian Bedroom Ideas",
+              keyword: "adire fabric bedroom ideas",
+              title: "Adire Fabric Bedroom Ideas: Deep Indigo & Natural Wood",
+              description: "Deep indigo adire fabric turns a plain bedroom into a calm Afrohemian retreat. Pair Yoruba indigo textiles with warm wood, soft linen bedding, brass accents and a woven throw. Save this cozy idea for your next bedroom refresh.",
+              overlay: "Indigo Adire Bedroom Calm",
+              imageFile: "adire-fabric-bedroom-indigo.jpg",
+              pillar: "Textiles & Bedroom",
+              altText: "Calm Afrohemian bedroom styled with deep indigo Yoruba adire textiles, natural wood, linen bedding and brass accents",
+              cta: "Save this cozy idea for your next bedroom refresh!",
+              destLink: "",
+              date: formatDateOffset(2),
+              time: "09:00",
+              status: "Sẵn sàng",
+              aiModified: false
+            },
+            {
+              id: "starter-pin-4",
+              type: "Value",
+              board: "Small Apartment Afrohemian Ideas",
+              keyword: "afrohemian small apartment ideas",
+              title: "Afrohemian Small Apartment Ideas: Big Style, Small Space",
+              description: "Small apartment, big Afrohemian style: one mudcloth anchor, a basket cluster, a natural jute rug and a plant in a woven basket are enough to start, no new sofa needed. Save this checklist before your next thrift run or Amazon order.",
+              overlay: "Small Space, Big Afrohemian Style",
+              imageFile: "afrohemian-small-apartment-ideas.jpg",
+              pillar: "Small Spaces",
+              altText: "Cozy small apartment living corner with mudcloth pillow, woven basket cluster, jute rug and indoor plant",
+              cta: "Save this checklist for your next refresh!",
+              destLink: "",
+              date: formatDateOffset(3),
+              time: "09:00",
+              status: "Sẵn sàng",
+              aiModified: false
+            },
+            {
+              id: "starter-pin-5",
+              type: "Shop",
+              board: "Afrohemian Under $100 Ideas",
+              keyword: "afrohemian decor under $100",
+              title: "Afrohemian Decor Under $100: 5 Pieces to Start With",
+              description: "Start your Afrohemian home for under $100 without buying new furniture: mudcloth pillow covers, a handwoven sweetgrass basket set, a natural jute rug and a terracotta vase. Shop the look below and save this budget guide for later.",
+              overlay: "Afrohemian Style Under $100",
+              imageFile: "afrohemian-decor-under-100.jpg",
+              pillar: "Budget Shop",
+              altText: "Curated Afrohemian decor pieces under $100 including mudcloth pillow covers, sweetgrass baskets, jute rug and terracotta vase",
+              cta: "Shop the look below and save for later!",
+              destLink: "",
+              date: formatDateOffset(4),
+              time: "09:00",
+              status: "Nháp",
+              aiModified: false
+            }
+          ]
+        };
+      }
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) {
+            const starter = getStarterData();
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(starter));
+            return starter;
+          }
+          const parsed = JSON.parse(raw);
+          return {
+            products: Array.isArray(parsed.products) ? parsed.products : [],
+            pins: Array.isArray(parsed.pins) ? parsed.pins : []
+          };
+        } catch (err) {
+          const starter = getStarterData();
+          return starter;
+        }
+      }
+
+      let state = loadState();
+
+      function saveState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
+
+      function escapeHtml(str) {
+        return String(str || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(showToast._timer);
+        showToast._timer = setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2600);
+      }
+
+      function extractTrackingId(rawUrl) {
+        const trimmed = (rawUrl || "").trim();
+        if (!trimmed) return "";
+        try {
+          const url = new URL(trimmed.startsWith("http") ? trimmed : "https://" + trimmed);
+          const tag = url.searchParams.get("tag");
+          if (tag) return tag.trim();
+        } catch (e) {
+          // fallback to regex
+        }
+        const match = trimmed.match(/[?&]tag=([^&#\s]+)/i);
+        return match ? decodeURIComponent(match[1]).trim() : "";
+      }
+
+      function countWords(text) {
+        const cleaned = (text || "").trim();
+        if (!cleaned) return 0;
+        return cleaned.split(/\s+/).length;
+      }
+
+      function buildPublishDescription(description, type) {
+        const desc = (description || "").trim();
+        if (type === "Shop") {
+          if (!/#affiliate\b/i.test(desc)) {
+            return desc ? `${desc} #affiliate` : "#affiliate";
+          }
+        }
+        return desc;
+      }
+
+      function buildHashtags(pin) {
+        const tags = ["#afrohemian", "#afrohemiandecor", "#afrohemianhaven"];
+        if (pin.type === "Shop") {
+          tags.push("#affiliate");
+        }
+        return tags.join(" ");
+      }
+
+      async function copyText(text) {
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+            return true;
+          }
+        } catch (e) {
+          // fallback below
+        }
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        let ok = false;
+        try {
+          ok = document.execCommand("copy");
+        } catch (e) {
+          ok = false;
+        }
+        document.body.removeChild(ta);
+        return ok;
+      }
+
+      // Populate Board Dropdowns
+      function initBoardDropdowns() {
+        const pinBoard = document.getElementById("pinBoard");
+        const filterBoard = document.getElementById("filterBoard");
+        pinBoard.innerHTML = "";
+        filterBoard.innerHTML = '<option value="ALL">Tất cả bảng (8)</option>';
+
+        BOARDS.forEach((b) => {
+          const opt1 = document.createElement("option");
+          opt1.value = b;
+          opt1.textContent = b;
+          pinBoard.appendChild(opt1);
+
+          const opt2 = document.createElement("option");
+          opt2.value = b;
+          opt2.textContent = b;
+          filterBoard.appendChild(opt2);
+        });
+      }
+
+      // Tabs
+      function switchTab(tabId) {
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.tab === tabId);
+        });
+        document.querySelectorAll(".section-panel").forEach((panel) => {
+          panel.classList.toggle("active", panel.id === tabId);
+        });
+      }
+
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+      });
+
+      document.getElementById("btnNewPinShortcut").addEventListener("click", () => {
+        resetPinForm();
+        switchTab("tab-editor");
+      });
+
+      // Stats
+      function renderStats() {
+        document.getElementById("statTotalPins").textContent = state.pins.length;
+        document.getElementById("statReadyPins").textContent = state.pins.filter((p) => p.status === "Sẵn sàng").length;
+        document.getElementById("statPostedPins").textContent = state.pins.filter((p) => p.status === "Đã đăng").length;
+        document.getElementById("statProducts").textContent = state.products.length;
+      }
+
+      // ---------------- AMAZON PRODUCTS ----------------
+      const prodLinkInput = document.getElementById("prodLink");
+      const prodTagBadge = document.getElementById("prodTagBadge");
+      const prodTagWarning = document.getElementById("prodTagWarning");
+
+      function updateProdTagPreview() {
+        const link = prodLinkInput.value.trim();
+        if (!link) {
+          prodTagBadge.textContent = "Chưa có link";
+          prodTagBadge.className = "counter-pill";
+          prodTagWarning.innerHTML = "";
+          return;
+        }
+        const tag = extractTrackingId(link);
+        if (tag) {
+          prodTagBadge.textContent = `Tracking ID: ${tag}`;
+          prodTagBadge.className = "counter-pill green";
+          prodTagWarning.innerHTML = `<div class="alert-box alert-success">✅ Đã tách tracking ID: <strong>${escapeHtml(tag)}</strong></div>`;
+        } else {
+          prodTagBadge.textContent = "Thiếu tracking ID";
+          prodTagBadge.className = "counter-pill orange";
+          prodTagWarning.innerHTML = `<div class="alert-box alert-warning">⚠️ Link chưa có tracking ID</div>`;
+        }
+      }
+
+      prodLinkInput.addEventListener("input", updateProdTagPreview);
+      prodLinkInput.addEventListener("paste", () => setTimeout(updateProdTagPreview, 10));
+
+      document.getElementById("productForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = document.getElementById("prodName").value.trim();
+        const link = prodLinkInput.value.trim();
+        const note = document.getElementById("prodNote").value.trim();
+        if (!name || !link) return;
+
+        const trackingId = extractTrackingId(link);
+        state.products.unshift({
+          id: "prod-" + Date.now(),
+          name,
+          link,
+          trackingId,
+          note
+        });
+        saveState();
+        renderAll();
+        e.target.reset();
+        updateProdTagPreview();
+        showToast("Đã thêm sản phẩm Amazon!");
+      });
+
+      function renderProducts() {
+        const container = document.getElementById("productListContainer");
+        const select = document.getElementById("pinProductSelect");
+        const currentSelected = select.value;
+
+        select.innerHTML = '<option value="">-- Chọn từ danh sách sản phẩm đã lưu --</option>';
+        state.products.forEach((p) => {
+          const opt = document.createElement("option");
+          opt.value = p.id;
+          opt.textContent = `${p.name} (${p.trackingId ? "tag: " + p.trackingId : "chưa có tag"})`;
+          select.appendChild(opt);
+        });
+        select.value = currentSelected;
+
+        if (state.products.length === 0) {
+          container.innerHTML = '<div class="empty-state">Chưa có sản phẩm Amazon nào. Hãy thêm sản phẩm ở biểu mẫu phía trên.</div>';
+          return;
+        }
+
+        container.innerHTML = state.products
+          .map((p) => {
+            const tagHtml = p.trackingId
+              ? `<span class="counter-pill green">Tracking ID: ${escapeHtml(p.trackingId)}</span>`
+              : `<span class="counter-pill orange">Link chưa có tracking ID</span>`;
+            const noteHtml = p.note ? `<div style="font-size:0.9rem;color:var(--text-muted);">📝 ${escapeHtml(p.note)}</div>` : "";
+            return `
+              <div class="product-item">
+                <div class="product-info">
+                  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                    <span class="product-name">${escapeHtml(p.name)}</span>
+                    ${tagHtml}
+                  </div>
+                  <a class="product-link" href="${escapeHtml(p.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(p.link)}</a>
+                  ${noteHtml}
+                </div>
+                <div>
+                  <button type="button" class="btn btn-danger btn-sm" data-delete-product="${escapeHtml(p.id)}">🗑️ Xóa</button>
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+
+        container.querySelectorAll("[data-delete-product]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-delete-product");
+            state.products = state.products.filter((p) => p.id !== id);
+            saveState();
+            renderAll();
+            showToast("Đã xóa sản phẩm!");
+          });
+        });
+      }
+
+      // ---------------- CREATE / EDIT PIN ----------------
+      const pinIdInput = document.getElementById("pinId");
+      const pinKeywordInput = document.getElementById("pinKeyword");
+      const pinTitleInput = document.getElementById("pinTitle");
+      const pinDescInput = document.getElementById("pinDescription");
+      const pinTypeSelect = document.getElementById("pinType");
+      const pinOverlayInput = document.getElementById("pinOverlay");
+      const pinDateInput = document.getElementById("pinDate");
+      const pinTimeInput = document.getElementById("pinTime");
+      const pinDestLinkInput = document.getElementById("pinDestLink");
+      const pinProductSelect = document.getElementById("pinProductSelect");
+
+      function updateEditorLiveFeedback() {
+        const title = pinTitleInput.value;
+        const keyword = pinKeywordInput.value.trim();
+        const desc = pinDescInput.value;
+        const type = pinTypeSelect.value;
+        const overlay = pinOverlayInput.value;
+        const dateVal = pinDateInput.value;
+        const editingId = pinIdInput.value;
+
+        // 1. Title counter & keyword check
+        const titleLen = title.length;
+        const titleCounter = document.getElementById("titleCounter");
+        titleCounter.textContent = `${titleLen} / 100 ký tự`;
+        titleCounter.className = "counter-pill " + (titleLen > 100 ? "red" : titleLen > 0 ? "green" : "");
+
+        const titleWarnings = [];
+        if (titleLen > 100) {
+          titleWarnings.push('<div class="alert-box alert-danger">⚠️ Tiêu đề vượt quá 100 ký tự! Hãy rút gọn để hiển thị đẹp trên Pinterest.</div>');
+        }
+        if (keyword && title.trim() && !title.trim().toLowerCase().startsWith(keyword.toLowerCase())) {
+          titleWarnings.push('<div class="alert-box alert-info">💡 Gợi ý SEO: Nên đặt từ khóa chính ("' + escapeHtml(keyword) + '") ở ngay đầu tiêu đề.</div>');
+        }
+        document.getElementById("titleWarning").innerHTML = titleWarnings.join("");
+
+        // 2. Description counter (target 220-232)
+        const descLen = desc.length;
+        const descCounter = document.getElementById("descCounter");
+        descCounter.textContent = `${descLen} ký tự (mục tiêu 220–232)`;
+        const inRange = descLen >= 220 && descLen <= 232;
+        descCounter.className = "counter-pill " + (inRange ? "green" : "orange");
+
+        const descFeedback = document.getElementById("descFeedback");
+        if (descLen === 0) {
+          descFeedback.innerHTML = "";
+        } else if (inRange) {
+          descFeedback.innerHTML = '<div class="alert-box alert-success">✅ Độ dài mô tả đạt chuẩn (220–232 ký tự).</div>';
+        } else if (descLen < 220) {
+          descFeedback.innerHTML = `<div class="alert-box alert-warning">🟠 Mô tả còn ngắn (thiếu ${220 - descLen} ký tự để đạt mức 220–232).</div>`;
+        } else {
+          descFeedback.innerHTML = `<div class="alert-box alert-warning">🟠 Mô tả hơi dài (vượt ${descLen - 232} ký tự so với mức 220–232).</div>`;
+        }
+
+        // 3. Shop type reminder + #affiliate preview
+        const shopReminder = document.getElementById("shopAffiliateReminder");
+        if (type === "Shop") {
+          shopReminder.style.display = "block";
+          shopReminder.innerHTML = '<div class="alert-box alert-info">🔔 Pin Shop: Hệ thống tự động thêm <strong>#affiliate</strong> ở cuối mô tả. Hãy nhớ công khai liên kết affiliate khi đăng!</div>';
+        } else {
+          shopReminder.style.display = "none";
+          shopReminder.innerHTML = "";
+        }
+        document.getElementById("descPreviewBox").textContent = buildPublishDescription(desc, type) || "(Chưa có nội dung mô tả)";
+
+        // 4. Overlay word counter (> 8 words warning)
+        const words = countWords(overlay);
+        const overlayCounter = document.getElementById("overlayCounter");
+        overlayCounter.textContent = `${words} / 8 từ`;
+        overlayCounter.className = "counter-pill " + (words > 8 ? "red" : words > 0 ? "green" : "");
+        document.getElementById("overlayWarning").innerHTML =
+          words > 8
+            ? '<div class="alert-box alert-danger">⚠️ Chữ trên ảnh vượt quá 8 từ! Nên giữ ngắn gọn tối đa 8 từ.</div>'
+            : "";
+
+        // 5. Destination link tracking ID check
+        const destLink = pinDestLinkInput.value.trim();
+        const destInfo = document.getElementById("destLinkInfo");
+        if (!destLink) {
+          destInfo.innerHTML = "";
+        } else {
+          const tag = extractTrackingId(destLink);
+          destInfo.innerHTML = tag
+            ? `<div class="alert-box alert-success">✅ Tracking ID của link: <strong>${escapeHtml(tag)}</strong> (1 sản phẩm / Pin)</div>`
+            : `<div class="alert-box alert-warning">⚠️ Link chưa có tracking ID</div>`;
+        }
+
+        // 6. Date conflict warning
+        const dateWarn = document.getElementById("dateConflictWarning");
+        if (dateVal) {
+          const conflict = state.pins.some((p) => p.date === dateVal && p.id !== editingId);
+          dateWarn.innerHTML = conflict
+            ? '<div class="alert-box alert-danger">⚠️ Ngày này đã có pin khác</div>'
+            : "";
+        } else {
+          dateWarn.innerHTML = "";
+        }
+      }
+
+      [pinKeywordInput, pinTitleInput, pinDescInput, pinTypeSelect, pinOverlayInput, pinDateInput, pinDestLinkInput].forEach((el) => {
+        el.addEventListener("input", updateEditorLiveFeedback);
+        el.addEventListener("change", updateEditorLiveFeedback);
+      });
+
+      pinProductSelect.addEventListener("change", () => {
+        const prod = state.products.find((p) => p.id === pinProductSelect.value);
+        if (prod) {
+          pinDestLinkInput.value = prod.link;
+          updateEditorLiveFeedback();
+        }
+      });
+
+      function resetPinForm() {
+        document.getElementById("pinForm").reset();
+        pinIdInput.value = "";
+        pinTimeInput.value = "09:00";
+        document.getElementById("pinStatus").value = "Nháp";
+        document.getElementById("pinType").value = "Value";
+        document.getElementById("editorHeading").textContent = "✏️ Tạo Pin mới";
+        document.getElementById("btnSavePin").textContent = "💾 Lưu Pin";
+        document.getElementById("btnCancelEdit").style.display = "none";
+        updateEditorLiveFeedback();
+      }
+
+      document.getElementById("btnResetPinForm").addEventListener("click", resetPinForm);
+      document.getElementById("btnCancelEdit").addEventListener("click", () => {
+        resetPinForm();
+        switchTab("tab-pins");
+      });
+
+      function editPin(id) {
+        const pin = state.pins.find((p) => p.id === id);
+        if (!pin) return;
+
+        pinIdInput.value = pin.id;
+        pinKeywordInput.value = pin.keyword || "";
+        document.getElementById("pinBoard").value = pin.board || BOARDS[0];
+        pinTitleInput.value = pin.title || "";
+        pinDescInput.value = pin.description || "";
+        pinTypeSelect.value = pin.type || "Value";
+        document.getElementById("pinStatus").value = pin.status || "Nháp";
+        pinOverlayInput.value = pin.overlay || "";
+        document.getElementById("pinPillar").value = pin.pillar || "";
+        document.getElementById("pinAltText").value = pin.altText || "";
+        document.getElementById("pinCta").value = pin.cta || "";
+        document.getElementById("pinImageFile").value = pin.imageFile || "";
+        pinDestLinkInput.value = pin.destLink || "";
+        pinDateInput.value = pin.date || "";
+        pinTimeInput.value = pin.time || "09:00";
+        document.getElementById("pinAiModified").checked = Boolean(pin.aiModified);
+
+        document.getElementById("editorHeading").textContent = "✏️ Chỉnh sửa Pin";
+        document.getElementById("btnSavePin").textContent = "💾 Cập nhật Pin";
+        document.getElementById("btnCancelEdit").style.display = "inline-flex";
+
+        updateEditorLiveFeedback();
+        switchTab("tab-editor");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      document.getElementById("pinForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const id = pinIdInput.value;
+        const pinData = {
+          id: id || "pin-" + Date.now(),
+          keyword: pinKeywordInput.value.trim(),
+          board: document.getElementById("pinBoard").value,
+          title: pinTitleInput.value.trim(),
+          description: pinDescInput.value.trim(),
+          type: pinTypeSelect.value,
+          status: document.getElementById("pinStatus").value,
+          overlay: pinOverlayInput.value.trim(),
+          pillar: document.getElementById("pinPillar").value.trim(),
+          altText: document.getElementById("pinAltText").value.trim(),
+          cta: document.getElementById("pinCta").value.trim(),
+          imageFile: document.getElementById("pinImageFile").value.trim(),
+          destLink: pinDestLinkInput.value.trim(),
+          date: pinDateInput.value,
+          time: pinTimeInput.value || "09:00",
+          aiModified: document.getElementById("pinAiModified").checked
+        };
+
+        if (id) {
+          const idx = state.pins.findIndex((p) => p.id === id);
+          if (idx !== -1) state.pins[idx] = pinData;
+          showToast("Đã cập nhật Pin!");
+        } else {
+          state.pins.unshift(pinData);
+          showToast("Đã tạo Pin mới!");
+        }
+
+        saveState();
+        resetPinForm();
+        renderAll();
+        switchTab("tab-pins");
+      });
+
+      // ---------------- PIN LIST ----------------
+      const filterBoard = document.getElementById("filterBoard");
+      const filterStatus = document.getElementById("filterStatus");
+      const filterType = document.getElementById("filterType");
+
+      [filterBoard, filterStatus, filterType].forEach((el) => {
+        el.addEventListener("change", renderPinList);
+      });
+
+      function renderPinList() {
+        const container = document.getElementById("pinListContainer");
+        const bVal = filterBoard.value;
+        const sVal = filterStatus.value;
+        const tVal = filterType.value;
+
+        const filtered = state.pins.filter((p) => {
+          if (bVal !== "ALL" && p.board !== bVal) return false;
+          if (sVal !== "ALL" && p.status !== sVal) return false;
+          if (tVal !== "ALL" && p.type !== tVal) return false;
+          return true;
+        });
+
+        if (filtered.length === 0) {
+          container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">Không có Pin nào phù hợp với bộ lọc hiện tại.</div>';
+          return;
+        }
+
+        container.innerHTML = filtered
+          .map((p) => {
+            const titleLen = (p.title || "").length;
+            const descLen = (p.description || "").length;
+            const descInRange = descLen >= 220 && descLen <= 232;
+            const statusClass =
+              p.status === "Đã đăng" ? "badge-status-dadang" : p.status === "Sẵn sàng" ? "badge-status-sansang" : "badge-status-nhap";
+            const typeClass = p.type === "Shop" ? "badge-shop" : "badge-value";
+            const aiBadge = p.aiModified ? '<span class="badge badge-ai">🤖 AI-Modified</span>' : "";
+            const dateDisplay = p.date ? `${p.date} (${p.time || "09:00"})` : "Chưa lên lịch";
+            const tag = extractTrackingId(p.destLink);
+
+            return `
+              <article class="pin-card ${p.type === "Shop" ? "type-shop" : ""}">
+                <div>
+                  <div class="pin-badges" style="margin-bottom:10px;">
+                    <span class="badge ${typeClass}">${escapeHtml(p.type)}</span>
+                    <span class="badge ${statusClass}">${escapeHtml(p.status)}</span>
+                    <span class="badge">${escapeHtml(p.board)}</span>
+                    ${aiBadge}
+                  </div>
+                  <h3 class="pin-title">${escapeHtml(p.title)}</h3>
+                  <p class="pin-desc" style="margin-top:8px;">${escapeHtml(buildPublishDescription(p.description, p.type))}</p>
+                </div>
+
+                <div>
+                  <div class="pin-meta">
+                    <div>📅 <strong>Lịch đăng:</strong> ${escapeHtml(dateDisplay)}</div>
+                    <div>
+                      🔤 <strong>Tiêu đề:</strong> <span class="${titleLen > 100 ? "counter-pill red" : ""}">${titleLen}/100</span>
+                      &nbsp;|&nbsp;
+                      📝 <strong>Mô tả:</strong> <span class="counter-pill ${descInRange ? "green" : "orange"}">${descLen} ký tự</span>
+                    </div>
+                    ${p.imageFile ? `<div>🖼️ <strong>Ảnh:</strong> ${escapeHtml(p.imageFile)}</div>` : ""}
+                    ${tag ? `<div>🏷️ <strong>Tracking ID:</strong> ${escapeHtml(tag)}</div>` : ""}
+                  </div>
+
+                  <div class="pin-actions" style="margin-top:12px;">
+                    <button type="button" class="btn btn-mustard btn-sm" data-copy-pin="${escapeHtml(p.id)}">📋 Copy</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-edit-pin="${escapeHtml(p.id)}">✏️ Sửa</button>
+                    ${
+                      p.status !== "Đã đăng"
+                        ? `<button type="button" class="btn btn-success btn-sm" data-mark-posted="${escapeHtml(p.id)}">✅ Đánh dấu đã đăng</button>`
+                        : ""
+                    }
+                    <button type="button" class="btn btn-danger btn-sm" data-delete-pin="${escapeHtml(p.id)}">🗑️ Xóa</button>
+                  </div>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+
+        container.querySelectorAll("[data-copy-pin]").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const pin = state.pins.find((p) => p.id === btn.getAttribute("data-copy-pin"));
+            if (!pin) return;
+            const fullText = `${pin.title}\n\n${buildPublishDescription(pin.description, pin.type)}\n\n${buildHashtags(pin)}`;
+            const ok = await copyText(fullText);
+            showToast(ok ? "Đã sao chép Tiêu đề + Mô tả + Hashtags!" : "Không thể tự động sao chép.");
+          });
+        });
+
+        container.querySelectorAll("[data-edit-pin]").forEach((btn) => {
+          btn.addEventListener("click", () => editPin(btn.getAttribute("data-edit-pin")));
+        });
+
+        container.querySelectorAll("[data-mark-posted]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const pin = state.pins.find((p) => p.id === btn.getAttribute("data-mark-posted"));
+            if (!pin) return;
+            pin.status = "Đã đăng";
+            saveState();
+            renderAll();
+            showToast("Đã đánh dấu Pin là Đã đăng!");
+          });
+        });
+
+        container.querySelectorAll("[data-delete-pin]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-delete-pin");
+            state.pins = state.pins.filter((p) => p.id !== id);
+            saveState();
+            renderAll();
+            showToast("Đã xóa Pin!");
+          });
+        });
+      }
+
+      // ---------------- SCHEDULE ----------------
+      function renderSchedule() {
+        const container = document.getElementById("scheduleListContainer");
+        const summaryAlert = document.getElementById("scheduleSummaryAlert");
+
+        if (state.pins.length === 0) {
+          summaryAlert.innerHTML = "";
+          container.innerHTML = '<div class="empty-state">Chưa có Pin nào trong lịch đăng bài.</div>';
+          return;
+        }
+
+        const dateCounts = {};
+        state.pins.forEach((p) => {
+          if (p.date) {
+            dateCounts[p.date] = (dateCounts[p.date] || 0) + 1;
+          }
+        });
+
+        const hasAnyConflict = Object.values(dateCounts).some((c) => c > 1);
+        summaryAlert.innerHTML = hasAnyConflict
+          ? '<div class="alert-box alert-danger" style="margin-bottom:14px;">⚠️ Ngày này đã có pin khác — Quy tắc kênh: mỗi ngày chỉ nên đăng 1 Pin.</div>'
+          : '<div class="alert-box alert-success" style="margin-bottom:14px;">✅ Lịch đăng hợp lệ: mỗi ngày tối đa 1 Pin.</div>';
+
+        const sorted = [...state.pins].sort((a, b) => {
+          if (!a.date && !b.date) return 0;
+          if (!a.date) return 1;
+          if (!b.date) return -1;
+          if (a.date !== b.date) return a.date.localeCompare(b.date);
+          return (a.time || "09:00").localeCompare(b.time || "09:00");
+        });
+
+        container.innerHTML = sorted
+          .map((p) => {
+            const isConflict = p.date && dateCounts[p.date] > 1;
+            const dateLabel = p.date ? `${p.date} • ${p.time || "09:00"}` : "Chưa xếp ngày";
+            return `
+              <div class="schedule-row ${isConflict ? "conflict" : ""}">
+                <div class="schedule-date-box">
+                  <div>📅 ${escapeHtml(dateLabel)}</div>
+                  ${isConflict ? '<div style="color:var(--red);font-size:0.85rem;margin-top:4px;">⚠️ Ngày này đã có pin khác</div>' : ""}
+                </div>
+                <div style="flex:1;min-width:220px;">
+                  <div style="font-weight:800;font-size:1.02rem;">${escapeHtml(p.title)}</div>
+                  <div style="font-size:0.88rem;color:var(--text-muted);margin-top:3px;">
+                    ${escapeHtml(p.board)} • <strong>${escapeHtml(p.type)}</strong> • ${escapeHtml(p.status)}
+                  </div>
+                </div>
+                <div>
+                  <button type="button" class="btn btn-secondary btn-sm" data-sched-edit="${escapeHtml(p.id)}">✏️ Đổi lịch</button>
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+
+        container.querySelectorAll("[data-sched-edit]").forEach((btn) => {
+          btn.addEventListener("click", () => editPin(btn.getAttribute("data-sched-edit")));
+        });
+      }
+
+      // ---------------- BACKUP (EXPORT / IMPORT JSON) ----------------
+      document.getElementById("btnExportJson").addEventListener("click", () => {
+        const payload = {
+          app: "Afrohemian Haven",
+          exportedAt: new Date().toISOString(),
+          products: state.products,
+          pins: state.pins
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        const today = formatDateOffset(0);
+        a.href = url;
+        a.download = `afrohemian-haven-backup-${today}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast("Đã xuất file sao lưu JSON!");
+      });
+
+      const importFileInput = document.getElementById("importFileInput");
+      document.getElementById("btnImportTrigger").addEventListener("click", () => {
+        importFileInput.click();
+      });
+
+      importFileInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          try {
+            const parsed = JSON.parse(evt.target.result);
+            if (!parsed || (!Array.isArray(parsed.pins) && !Array.isArray(parsed.products))) {
+              showToast("File JSON không hợp lệ!");
+              return;
+            }
+            state = {
+              products: Array.isArray(parsed.products) ? parsed.products : [],
+              pins: Array.isArray(parsed.pins) ? parsed.pins : []
+            };
+            saveState();
+            renderAll();
+            showToast("Đã nhập dữ liệu từ file JSON thành công!");
+          } catch (err) {
+            showToast("Lỗi đọc file JSON!");
+          }
+          importFileInput.value = "";
+        };
+        reader.readAsText(file);
+      });
+
+      // ---------------- INIT ----------------
+      function renderAll() {
+        renderStats();
+        renderProducts();
+        renderPinList();
+        renderSchedule();
+      }
+
+      initBoardDropdowns();
+      resetPinForm();
+      renderAll();
+    })();
+  </script>
+</body>
+</html>
